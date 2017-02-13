@@ -7,7 +7,7 @@ import requests
 from json import dumps, loads
 from pprint import pprint
 
-PAGE_ACCESS_TOKEN = 'EAAFJaTQTZCAgBACOYoWcwzLuVmObFfxQzdVWGzdK5fGQhYQBXNPhWZAJE5kZBB1wsnPuiHWsKL43gBnI0DdQtaNAMZAunNZAZBaH9ckSE47jR8ZAracwH8Mf7z4pBeZAJ0fCg4w3umoc7WwtXu96aoKqOxaZBYslnFOgYR38PdthoZBAZDZD'
+PAGE_ACCESS_TOKEN = 'EAAFJaTQTZCAgBAOQuWJuNFOZC4wBJ4QZALQiZCOlBZCP8SKIx3LQVGPfrJGTrVhdX3xDce3uwLFHiGGYa3kgFXDdEBWeTF2ZCRdEakHpkBVJiBEsZBaeCWZB3rZAv1W4TbiUvV1mSxZAPZAjbl0x39CxirL158tRjZALZBkzz0aZBHy8u9QgZDZD'
 
 def post_facebook_message(fbid, received_message):
     # TODO Change access token           
