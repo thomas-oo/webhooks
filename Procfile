@@ -1,1 +1,1 @@
-web: gunicorn fb_mcbot.wsgi --log-file -
+web: gunicorn mcbot.wsgi --log-file -
