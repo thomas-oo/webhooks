@@ -26,7 +26,7 @@ SECRET_KEY = 'i79zrpf)y3(4l^=kwgbzp3e-7_-ylh(dxuhnro-m(leojhme8x'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '700ecdbe.ngrok.io'
+    'floating-meadow-95591.herokuapp.com'
 ]
 
 
