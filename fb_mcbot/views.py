@@ -7,11 +7,13 @@ import requests
 from json import dumps, loads
 from pprint import pprint
 
-PAGE_ACCESS_TOKEN = 'EAAFJaTQTZCAgBAOQuWJuNFOZC4wBJ4QZALQiZCOlBZCP8SKIx3LQVGPfrJGTrVhdX3xDce3uwLFHiGGYa3kgFXDdEBWeTF2ZCRdEakHpkBVJiBEsZBaeCWZB3rZAv1W4TbiUvV1mSxZAPZAjbl0x39CxirL158tRjZALZBkzz0aZBHy8u9QgZDZD'
+APP_ID = '362191170829320'
+APP_SECRET = 'b89bdf1697d83f88c606bbffbc8487bb'
 
 def post_facebook_message(fbid, received_message):
     # TODO Change access token           
-    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token={}'.format(PAGE_ACCESS_TOKEN)
+    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token={}|{}'.format(APP_ID, APP_SECRET)
+
     response_msg = dumps({"recipient":{"id":fbid}, "message":{"text":received_message}})
     status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
     pprint(status.json())
@@ -37,6 +39,7 @@ class McBotView(generic.View):
                     pprint(message)
                     post_facebook_message(message['sender']['id'], message['message']['text'])      
         return HttpResponse()
+
 
 
 
