@@ -9,9 +9,9 @@ from email.mime.text import MIMEText
 #       title: message subject
 class Email():
 
-    def __init__(self, src, password, dest, title):
-        self.src = src
-        self.password = password
+    def __init__(self, dest, title):
+        self.src = 'mcbot428@gmail.com'
+        self.password = '2jM73NmlREkbRFsAVNdJL'
         self.dest = dest
         self.title = title
 
