@@ -3,8 +3,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 #Email bot class. Send an email as plain text and html format through gmail smtp server. Contains email template.
-#@param src: source email
-#       password: source password
+#@param:
 #       dest: destination email
 #       title: message subject
 class Email():
