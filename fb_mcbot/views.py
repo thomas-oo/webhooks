@@ -17,9 +17,6 @@ VERIFY_TOKEN = '2318934571'
 # Permanent page access token
 PAGE_ACCESS_TOKEN = 'EAAFJaTQTZCAgBAKquTNCRxUz2edEmSuocZC9EreThZAiGFImZAHGGqVlcLdvRDe3vMNXZBvXnQL3ZC0VMJY8IMAWt6t0j8tZCBwsYBZAQDEYOh1kwdjzmnu6zkg1tPyWITWTtgcQvZAw0mvyqZAIkZABmmkMQr1UQwBCkKkcXCTmaZAFHAZDZD'
 
-TEMP_EMAIL_ADDRESS = 'mcbot.ecse428@gmail.com'
-TEMP_EMAIL_PASSWORD = 'mcbotmcbot428'
-
 def post_facebook_message(fbid, received_message):
     # TODO Change access token
     post_message_url = 'https://graph.facebook.com/v2.8/me/messages?access_token={}'.format(PAGE_ACCESS_TOKEN)
@@ -27,8 +24,8 @@ def post_facebook_message(fbid, received_message):
     status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
     print('SEND STATUS')
     pprint(status.json())
-    email = Email(TEMP_EMAIL_ADDRESS, TEMP_EMAIL_PASSWORD, received_message, 'email from bot')
-    email.send_email()
+    email = Email(received_message, 'email from bot')
+    Email.send_confirmation_email(email, 'CONFIRMATION-CODE-AABB123')
 
 # Create your views here.
 class McBotView(generic.View):
