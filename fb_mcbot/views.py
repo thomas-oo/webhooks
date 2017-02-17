@@ -25,7 +25,7 @@ def post_facebook_message(fbid, received_message):
     print('SEND STATUS')
     pprint(status.json())
     email = Email(received_message, 'email from bot')
-    Email.send_confirmation_email(email, 'CONFIRMATION-CODE-AABB123')
+    email.send_confirmation_email('CONFIRMATION-CODE-AABB123')
 
 # Create your views here.
 class McBotView(generic.View):
