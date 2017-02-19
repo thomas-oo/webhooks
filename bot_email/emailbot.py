@@ -23,7 +23,7 @@ class Email():
         try:
             self.server.sendmail(self.src, self.dest, msg)
         except smtplib.SMTPRecipientsRefused:
-            print('received invalid email address' + self.dest)
+            print('received invalid email address: ' + self.dest)
         self.server.quit()
 
     #Connects to gmail smtp server and send confirmation email.
@@ -34,7 +34,7 @@ class Email():
         try:
             self.server.sendmail(self.src, self.dest, msg)
         except smtplib.SMTPRecipientsRefused:
-            print('received invalid email address' + self.dest)
+            print('received invalid email address: ' + self.dest)
         self.server.quit()
 
     #Login into the smtp gmail server. Note the server is passed a class instance variable.

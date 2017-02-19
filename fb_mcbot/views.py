@@ -1,11 +1,11 @@
 from django.views import generic
 from django.http.response import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from fb_mcbot.models import FBUser
 from bot_email.emailbot import Email
+from bot_services.user_service import UserService, Question
+from bot_services.answer_service import AnswerService
 
 import requests
-
 import facebook
 
 from json import dumps, loads
@@ -18,9 +18,11 @@ VERIFY_TOKEN = '2318934571'
 # Permanent page access token
 # TODO change access token to production one before pushing.
 PAGE_ACCESS_TOKEN = 'EAAFJaTQTZCAgBAKquTNCRxUz2edEmSuocZC9EreThZAiGFImZAHGGqVlcLdvRDe3vMNXZBvXnQL3ZC0VMJY8IMAWt6t0j8tZCBwsYBZAQDEYOh1kwdjzmnu6zkg1tPyWITWTtgcQvZAw0mvyqZAIkZABmmkMQr1UQwBCkKkcXCTmaZAFHAZDZD'
-#PAGE_ACCESS_TOKEN = 'EAAfmEq7c1t8BAKWagwktkLR6VkFsPANAzTiykeWrjtfZAVMhJSvkbC8Mv9qh3nddrAIgoZBipWFYXw4Ahgbl2lrdagDBz7rgHIYVMDalUNkhAFQYrMPjZB9tlAB3h7N2uMQ7MIuVl4XOZASN8kmTy9Lu3KpC6VnFzTn8aWLs6wZDZD'
+#PAGE_ACCESS_TOKEN = 'EAAfmEq7c1t8BAFhc9oSySXS0PvxgEZCMJulU9DnaA58jPVGD29PZCm9xsW8plpcs8xqNscA2iLpygw6L4YrwfONRracLRjkMRKMvKwWCrc7hiYIdSoyPYLMLh6CqM4ToYXQrradHbxv53WwIjl6V0ZBuKdpPBSiOKg3Ss4GcAZDZD'
 
+MSG_ASK_FOR_USER_TYPE = 'Are you a [student] or [instructor]?'
 graph = facebook.GraphAPI(PAGE_ACCESS_TOKEN, version='2.2')
+
 def post_facebook_message(fbid, received_message):
     # TODO Change access token
     post_message_url = 'https://graph.facebook.com/v2.8/me/messages?access_token={}'.format(PAGE_ACCESS_TOKEN)
@@ -35,20 +37,36 @@ def get_user_info(user_id):
     user = requests.get(("https://graph.facebook.com/v2.6/%s?access_token=%s" % (user_id, PAGE_ACCESS_TOKEN)))
     return user
 
-def userExists(userid):
-    try:
-        user = FBUser.objects.get(user_id = userid)
-    except FBUser.DoesNotExist:
-        pprint("User id not found in db, the user does not exist.")
-        return False;
-    return True;
-
-def create_new_user(user,user_id):
-    pprint("Creating new user")
-    firstname = user['first_name']
-    lastname = user['last_name']
-    new_user = FBUser(first_name = firstname, last_name = lastname, user_id =  user_id)
-    new_user.save()
+    #business logic
+def logic(request, message):
+    user_id = (message['sender']['id'])
+    pprint(user_id)
+    user_info = get_user_info(user_id).json()
+    fbuser = UserService.getUser(user_id)
+    #user does not exist, create user, create conversation, ask for user type first
+    if(fbuser is None):
+        fbuser = UserService.create_new_user(user_info,user_id)
+        conversation = UserService.create_new_conversation(fbuser)
+        return MSG_ASK_FOR_USER_TYPE
+    #user exist, so must conversation. Get conversation
+    conversation = UserService.get_conversation(fbuser)
+    msg = message['message']['text']
+    #if the question is user type, check if the user answers with user type
+    if(conversation.question == Question.get_question_type('USER_TYPE')):
+        fbuser_type = AnswerService.getUsertype(msg)
+        #user did not answer with his user type
+        if (fbuser_type is None):
+            return MSG_ASK_FOR_USER_TYPE
+        else:
+            #record user type
+            fbuser.set_user_type(fbuser_type)
+            #TODO: ask next question about email
+            conversation.set_conversation_question(Question.get_question_type('NOTHING'))
+            return "Okay! You are a " + fbuser_type + ". I'm supposed to ask you about email now, but the code is not there yet"
+    #if the question is empty, the msg must be a question
+    elif(conversation.question == Question.get_question_type('NOTHING')):
+        return "You asked me something, but I don't know how to answer yet"
+    return msg
 
 # Create your views here.
 class McBotView(generic.View):
@@ -70,11 +88,6 @@ class McBotView(generic.View):
         for entry in incoming_message['entry']:
             for message in entry['messaging']:
                 if 'message' in message:
-                    #pprint(message)
-                    user_id = (message['sender']['id'])
-                    user = get_user_info(user_id).json()
-                    if(userExists(user_id) == False):
-                        create_new_user(user,user_id)
-                    post_facebook_message(message['sender']['id'], message['message']['text'])
+                    answer = logic(request, message)
+                    post_facebook_message(message['sender']['id'], answer)
         return HttpResponse()
-

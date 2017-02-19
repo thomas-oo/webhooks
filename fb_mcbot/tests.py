@@ -1,6 +1,5 @@
 from django.test import TestCase
 from fb_mcbot.models import FBUser
-from fb_mcbot import views
 # Create your tests here.
 
 class FBUserTestCase(TestCase):
@@ -15,9 +14,3 @@ class FBUserTestCase(TestCase):
 
         c = FBUser.objects.get(id = b.pk)
         self.assertEquals(c,b)
-
-class ViewsTestCase(TestCase):
-    def testCheckForUser(self):
-        user_id = 1000000000000000
-        existance = views.userExists(user_id)
-        self.assertEquals(existance, False)
