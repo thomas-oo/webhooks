@@ -28,9 +28,9 @@ class Email():
 
     #Connects to gmail smtp server and send confirmation email.
     #@return void - email sent
-    def send_confirmation_email(self, confirmation_code):
+    def send_confirmation_email(self, confirmation_code, first_name, last_name):
         self.start_smtp_server()
-        msg = self.generate_confirmation_email(confirmation_code)
+        msg = self.generate_confirmation_email(confirmation_code, first_name, last_name)
         try:
             self.server.sendmail(self.src, self.dest, msg)
         except smtplib.SMTPRecipientsRefused:
@@ -45,7 +45,7 @@ class Email():
 
     #generate email with confirmation code as plain text and html format. Email's template hardcoded within this function.
     #@return email's content as a string.
-    def generate_confirmation_email(self, confirmation_code):
+    def generate_confirmation_email(self, confirmation_code, first_name, last_name):
         msg = MIMEMultipart('alternative')
         msg['Subject'] = self.title
         msg['From'] = self.src
@@ -56,9 +56,14 @@ class Email():
         <html>
             <head></head>
             <body>
-                <p>Hi!<br>
-                    This is your confirmation code: """ + confirmation_code + """<br>
-                    Simply message the code to McBot to confirm your registration.
+                <p>Hi! """ + first_name + """ """ + last_name + """ <br>
+                    <br>
+                    This is your confirmation code: <b> """ + confirmation_code + """</b><br>
+                    Simply message the code to McBot to confirm your registration.<br>
+                    Thank you.<br>
+                    <br>
+                    McGill McBot Team
+                    <br>
                 </p>
             </body>
         </html>

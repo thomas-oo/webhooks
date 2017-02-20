@@ -30,7 +30,7 @@ ALLOWED_HOSTS = [
     'floating-meadow-95591.herokuapp.com',
     'localhost',
     #TODO: change it to yours for testing
-    '656738f2.ngrok.io',
+    '01248a14.ngrok.io',
     '127.0.0.1'
 ]
 

@@ -7,7 +7,7 @@ import facebook
 # Permanent page access token
 # TODO change access token to production one before pushing.
 PAGE_ACCESS_TOKEN = 'EAAFJaTQTZCAgBAKquTNCRxUz2edEmSuocZC9EreThZAiGFImZAHGGqVlcLdvRDe3vMNXZBvXnQL3ZC0VMJY8IMAWt6t0j8tZCBwsYBZAQDEYOh1kwdjzmnu6zkg1tPyWITWTtgcQvZAw0mvyqZAIkZABmmkMQr1UQwBCkKkcXCTmaZAFHAZDZD'
-#PAGE_ACCESS_TOKEN = 'EAAVTNRkgcFgBAKcdVJiAzBV9iLQ88cUMQiYceecxlFGVewIBZCN5iJMWpZAnwZAiKANlWZA6f8IeohqbIOCxpJJ647W9rLHMzbsd9ZBY3p08zfnjpoNN9ZA0zIuImvuNCZBj0JVda02Rgz9aJHcmRuyqIlZB6kAHOQeK17RcdBbvewZDZD'
+#PAGE_ACCESS_TOKEN = 'EAAVTNRkgcFgBAAjnZCK6PjN9kWSFrR086wPA8aEqZBYlCCHvtgB8WZCWcjrZAaVEQ1eMJUnjQR9kD0zly4cPYRJnKmoT3jD92oY4EN77qsH6LJXMJ0DsRGdBbIKzXhBzAeXC3o80ZAMYzbhZBEA79SVXiwsWWSMqmkuQHJhcarUwZDZD'
 graph = facebook.GraphAPI(PAGE_ACCESS_TOKEN, version='2.2')
 
 class CommunicationService:
@@ -22,5 +22,3 @@ class CommunicationService:
         status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
         print('SEND STATUS')
         pprint(status.json())
-        email = Email(received_message, 'email from bot')
-        email.send_confirmation_email('CONFIRMATION-CODE-AABB123')

@@ -2,14 +2,14 @@ from pprint import pprint
 from fb_mcbot.models import FBUser, Conversation
 
 class Question:
-    question_type = {'NOTHING':0, 'USER_TYPE':1, 'EMAIL':2}
+    question_type = {'NOTHING':0, 'USER_TYPE':1, 'AUTHENTICATE':2}
 
     def get_question_type(question):
         try:
             result =  Question.question_type.get(question)
         except KeyError:
             pprint("Internal Error! " + question + " is not a question type!")
-        return result;
+        return result
 
 class UserService:
     def getUser(userid):

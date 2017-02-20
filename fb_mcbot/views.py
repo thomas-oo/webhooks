@@ -34,6 +34,7 @@ class McBotView(generic.View):
         for entry in incoming_message['entry']:
             for message in entry['messaging']:
                 if 'message' in message:
-                    answer = AnswerService.process_message(message)
-                    CommunicationService.post_facebook_message(message['sender']['id'], answer)
+                    if (message['sender']['id'] == "1612723942369895") is False:
+                        answer = AnswerService.process_message(message)
+                        CommunicationService.post_facebook_message(message['sender']['id'], answer)
         return HttpResponse()
