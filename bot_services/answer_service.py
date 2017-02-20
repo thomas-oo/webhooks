@@ -67,7 +67,6 @@ class AnswerService:
             reply = AuthenticationService.authenticationProcess(fbuser, msg)
             if(fbuser.authentication_status == AuthenticationService.AUTHENTICATION_NO):
                 conversation.set_conversation_question(Question.get_question_type(QUESTION_NOTHING))
-                return "You asked me something, but I don't know how to answer yet."
             if(fbuser.authentication_status == AuthenticationService.AUTHENTICATION_DONE):
                 conversation.set_conversation_question(Question.get_question_type(QUESTION_NOTHING))
             return reply
@@ -78,7 +77,7 @@ class AnswerService:
             #TODO: have a function that check if the answer contains the word 'authenticate'
             if(AnswerService.isAuthenticate(msg)):
                 if (fbuser.authentication_status == AuthenticationService.AUTHENTICATION_DONE):
-                    return "You have already finished Authentication."
+                    return "You have already finished authentication."
                 else:
                     conversation.set_conversation_question(Question.get_question_type(QUESTION_AUTHENTICATE))
                 return AuthenticationService.authenticationProcess(fbuser, msg)

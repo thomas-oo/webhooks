@@ -46,14 +46,14 @@ class AuthenticationService:
                 user.mcgill_email = input
 
                 # Send email.
-                email = Email(user.mcgill_email, 'McBot Confirmation Email')
+                email = Email(user.mcgill_email, 'McBot Authentication Email')
                 email.send_confirmation_email(user.code, user.first_name, user.last_name)
 
                 # Move to waiting for Authenticationation code stage.
                 user.authentication_status = AuthenticationService.AUTHENTICATION_ON
                 user.save()
 
-                return "Authentication email sent. Please enter your Authentication code:"
+                return "Authentication email sent. Please enter your authentication code:"
 
             else:
                 # Move to waiting for the user to continue or quit stage.
@@ -67,13 +67,13 @@ class AuthenticationService:
                 # Move to complete Authenticationation stage.
                 user.authentication_status = AuthenticationService.AUTHENTICATION_DONE
                 user.save()
-                return "The Authenticationation code is correct. Welcome to McBot! You can log out by typing [logout]"
+                return "The authentication code is correct. Welcome to McBot! You can log out by typing [logout]."
 
             else:
                 # Move to waiting for the user to continue or quit stage.
                 user.authentication_status = AuthenticationService.AUTHENTICATION_WAIT
                 user.save()
-                return "The Authenticationation code is NOT correct. Do you want to quit? (yes/no)"
+                return "The authentication code is NOT correct. Do you want to quit? (yes/no)"
 
         elif authenticationState == AuthenticationService.AUTHENTICATION_WAIT:
             # Check if the user enter "yes" or "no".
@@ -81,7 +81,7 @@ class AuthenticationService:
                 # Move to not going through Authenticationation process stage.
                 user.authentication_status = AuthenticationService.AUTHENTICATION_NO
                 user.save()
-                return "You have quit the Authenticationation process."
+                return "You have quit the authentication process."
 
             elif input.lower() == "no":
                 # Move to waiting for user's McGill email stage.
@@ -95,4 +95,4 @@ class AuthenticationService:
 
         else:
             # Show the message if the user has already gone through the Authenticationation process.
-            return "You have already finished Authentication."
+            return "You have already finished authentication."
