@@ -51,15 +51,15 @@ class Email():
         msg['From'] = self.src
         msg['To'] = self.dest
 
-        text = "Hi!\nThis is your confirmation code: " + confirmation_code + "\nSimply message the code to McBot to confirm your registration."
+        text = "Hi!\nThis is your authentication code: " + confirmation_code + "\nSimply message the code to McBot to confirm your authentication."
         html = """
         <html>
             <head></head>
             <body>
                 <p>Hi! """ + first_name + """ """ + last_name + """ <br>
                     <br>
-                    This is your confirmation code: <b> """ + confirmation_code + """</b><br>
-                    Simply message the code to McBot to confirm your registration.<br>
+                    This is your authentication code: <b> """ + confirmation_code + """</b><br>
+                    Simply message the code to McBot to confirm your authentication.<br>
                     Thank you.<br>
                     <br>
                     McGill McBot Team
