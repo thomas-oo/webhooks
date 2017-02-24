@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'fb_mcbot'
+    'fb_mcbot',
+    'mcgill_event'
 ]
 
 MIDDLEWARE = [
@@ -83,7 +84,14 @@ WSGI_APPLICATION = 'mcbot.wsgi.application'
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config()
+    'default': {
+       'ENGINE': 'django.db.backends.postgresql',
+       'NAME': 'postgres',
+       'USER': 'thomas',
+       'PASSWORD': '',
+       'HOST': 'localhost',
+       'PORT': '5432'
+   }
 }
 
 
