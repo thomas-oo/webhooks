@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'fb_mcbot',
-    'mcgill_event'
+    'bot_mcgill'
 ]
 
 MIDDLEWARE = [
