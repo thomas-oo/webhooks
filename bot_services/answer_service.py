@@ -2,6 +2,7 @@ import re
 from bot_services.user_service import UserService, Question
 from bot_services.communication_service import CommunicationService
 from bot_services.authentication_service import AuthenticationService
+from bot_services.event_service import EventService
 
 MSG_ASK_FOR_USER_TYPE = 'Are you a [student] or [instructor]?'
 QUESTION_USER_TYPE = 'USER_TYPE'
@@ -23,6 +24,12 @@ class AnswerService:
 
     def isAuthenticate(answer):
         searchObj = re.search(r'\b[Aa]uthenticate\b',answer)
+        if searchObj:
+            return True
+        return False
+
+    def isAskForDates(answer):
+        searchObj = re.search(r'\b[Ll]ist dates\b',answer)
         if searchObj:
             return True
         return False
@@ -74,7 +81,6 @@ class AnswerService:
         # If the question is empty, the msg must be a question.
         elif(conversation.question == Question.get_question_type(QUESTION_NOTHING)):
             # If user enters "authenticate", check if he/she has already been authenticated to do corresponding works.
-            #TODO: have a function that check if the answer contains the word 'authenticate'
             if(AnswerService.isAuthenticate(msg)):
                 if (fbuser.authentication_status == AuthenticationService.AUTHENTICATION_DONE):
                     return "You have already finished authentication."
@@ -86,6 +92,10 @@ class AnswerService:
                 AuthenticationService.resetAuthentication(fbuser)
                 conversation.set_conversation_question(Question.get_question_type(QUESTION_NOTHING))
                 return "Your are logged out."
+            elif(AnswerService.isAskForDates(msg)):
+                #have some service to list all academic dates.
+                #EventService.listAllEventDates()
+                return "Here are some dates :(Not implemented yet)"
 
 
             return "You asked me something, but I don't know how to answer yet."

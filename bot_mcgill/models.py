@@ -3,10 +3,15 @@ from django.db import models
 # Create your models here.
 
 class McgillEvent(models.Model):
+    EVENT_TYPES = (  # enum of options of event types
+        ('event_academic', 'Academic Deadlines'),
+        ('event_facebook', 'Facebook Event'),
+        ('event_misc', 'Misc'),
+    )
     event_name = models.CharField(max_length=70)
     event_date = models.DateTimeField()
     event_link = models.URLField(blank=True)
-
+    event_type = models.CharField(max_length=70, choices=EVENT_TYPES, default='event_academic')
     def __str__(self):
         return ("%s" % (self.event_name))
 
