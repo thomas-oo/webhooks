@@ -101,7 +101,7 @@ class AnswerService:
 
             request.session_id = "<SESSION ID, UNIQUE FOR EACH USER>"
 
-            request.query = message['message']['text']
+            request.query = message
             # request.query = "hello"
 
             response = request.getresponse()
@@ -112,7 +112,7 @@ class AnswerService:
 
 
 
-            #THIS SHOULD BE MOVED OVER TO jsonToFunc.py File, keep this file as 
+            #THIS SHOULD BE MOVED OVER TO jsonToFunc.py File, keep this file as
             # # If user enters "authenticate", check if he/she has already been authenticated to do corresponding works.
             # #TODO: have a function that check if the answer contains the word 'authenticate'
             # if(AnswerService.isAuthenticate(msg)):
