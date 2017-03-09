@@ -94,9 +94,7 @@ class AnswerService:
                 return "Your are logged out."
             elif(AnswerService.isAskForDates(msg)):
                 #have some service to list all academic dates.
-                #EventService.listAllEventDates()
-                return "Here are some dates :(Not implemented yet)"
-
+                return EventService().listAllEventDates()
 
             return "You asked me something, but I don't know how to answer yet."
         return msg
