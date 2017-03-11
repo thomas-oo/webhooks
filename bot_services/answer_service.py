@@ -12,7 +12,7 @@ QUESTION_NOTHING = 'NOTHING'
 import os.path
 import sys
 import json
-from jsonToFunc import sonToFunc
+from bot_services.jsonToFunc import sonToFunc
 
 try:
     import apiai
@@ -101,12 +101,13 @@ class AnswerService:
 
             request.session_id = "<SESSION ID, UNIQUE FOR EACH USER>"
 
-            request.query = message
+            request.query = msg
             # request.query = "hello"
 
             response = request.getresponse()
             apiJSON = response.read()
             jsonDict = json.loads(apiJSON)
+            print (jsonDict)
             return sonToFunc(jsonDict["result"])
             #API.AI STUFF
 
